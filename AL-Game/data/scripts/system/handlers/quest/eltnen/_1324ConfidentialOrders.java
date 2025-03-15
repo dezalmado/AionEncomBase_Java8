@@ -69,19 +69,17 @@ public class _1324ConfidentialOrders extends QuestHandler {
 			}
 		}
 		else if (targetId == 203940) {
-			if (qs != null && qs.getStatus() == QuestStatus.START && qs.getQuestVarById(0) == 1) {
-				if (env.getDialog() == QuestDialog.START_DIALOG)
+			if (qs != null) {
+				if (env.getDialog() == QuestDialog.START_DIALOG && qs.getStatus() == QuestStatus.START)
 					return sendQuestDialog(env, 2375);
-				else if (env.getDialogId() == 1009) {
+				else if (env.getDialogId() == 1009 && qs.getStatus() != QuestStatus.COMPLETE
+					&& qs.getStatus() != QuestStatus.NONE) {
 					qs.setQuestVar(2);
 					qs.setStatus(QuestStatus.REWARD);
 					updateQuestStatus(env);
 					return sendQuestEndDialog(env);
 				}
 			}
-		    else if (qs != null && qs.getStatus() == QuestStatus.REWARD) {
-			     return sendQuestEndDialog(env);
-		    }
 		}
 		return false;
 	}

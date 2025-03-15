@@ -70,6 +70,8 @@ public class _3074Dangerous_Probability extends QuestHandler {
 						} else {
 							return sendQuestDialog(env, 1009);
 						}
+					} case FINISH_DIALOG: {
+						return sendQuestSelectionDialog(env);
 					}
 				}
 			}

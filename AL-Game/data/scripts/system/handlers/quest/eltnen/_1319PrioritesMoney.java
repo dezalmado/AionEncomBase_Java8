@@ -64,9 +64,14 @@ public class _1319PrioritesMoney extends QuestHandler {
 					return sendQuestStartDialog(env);
 				}
 			}
-		    else if (qs != null && qs.getStatus() == QuestStatus.REWARD) { // Reward
+		else if (qs != null && qs.getStatus() == QuestStatus.REWARD) { // Reward
+			if (env.getDialog() == QuestDialog.START_DIALOG) {
+				return sendQuestDialog(env, 4080);
+			}
+			else if (env.getDialogId() == 1009) {
 				return sendQuestEndDialog(env);
-            }
+		        }
+			}
 		}
 		else if (targetId == 203923) { // Krato
 			if (qs != null && qs.getStatus() == QuestStatus.START && qs.getQuestVarById(0) == 0) {

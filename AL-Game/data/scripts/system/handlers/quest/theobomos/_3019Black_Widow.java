@@ -73,8 +73,7 @@ public class _3019Black_Widow extends QuestHandler {
                     } 
                 }
             }
-        } 
-        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+        } else if (qs == null && qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 798150) {
                 return sendQuestEndDialog(env);
             }

@@ -70,7 +70,13 @@ public class _1430ATeleportationExperiment extends QuestHandler {
 				}
 			}
 			else if (qs != null && qs.getStatus() == QuestStatus.REWARD) { // Reward
+				if (env.getDialog() == QuestDialog.START_DIALOG)
+					return sendQuestDialog(env, 4080);
+				else if (env.getDialogId() == 1009) {
+					qs.setQuestVar(2);
+					updateQuestStatus(env);
 					return sendQuestEndDialog(env);
+				}
 			}
 		}
 		return false;

@@ -79,7 +79,7 @@ public class _1111InsomniaMedicine extends QuestHandler {
 				}
 			}
 		}
-        else if (qs == null || qs.getStatus() == QuestStatus.START) {
+        else if (qs.getStatus() == QuestStatus.START) {
 		   if (targetId == 203061) {
 			if (env.getDialog() == QuestDialog.START_DIALOG) {
 				if (qs.getQuestVarById(0) == 0)
