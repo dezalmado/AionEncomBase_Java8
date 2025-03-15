@@ -73,7 +73,6 @@ import com.aionemu.gameserver.network.aion.serverpackets.SM_PLAYER_INFO;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_PLAYER_STANCE;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_PLAYER_STATE;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_PRIVATE_STORE;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_QUIT_RESPONSE;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_SKILL_CANCEL;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_SKILL_LIST;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_STATS_INFO;
@@ -135,9 +134,8 @@ import javolution.util.FastMap;
 /**
  * This class is for controlling players.
  * 
- * @author -Nemesiss-, ATracer, xavier, Sarynth, RotO, xTz, KID 
- *  modified by Sippolo
- *  modified by yayaya
+ * @author -Nemesiss-, ATracer, xavier, Sarynth, RotO, xTz, KID modified by
+ *         Sippolo
  */
 public class PlayerController extends CreatureController<Player> {
 
@@ -582,9 +580,7 @@ public class PlayerController extends CreatureController<Player> {
 		AbyssRank ar = player.getAbyssRank();
 		if (AbyssService.isOnPvpMap(player) && ar != null) {
 			if (ar.getRank().getId() >= 1) {
-				if (!player.isInDuel()) {
-				    AbyssService.rankedKillAnnounce(player);
-				}
+				AbyssService.rankedKillAnnounce(player);
 			}
 		}
 		if (DuelService.getInstance().isDueling(player.getObjectId())) {
@@ -1147,18 +1143,6 @@ public class PlayerController extends CreatureController<Player> {
 					AuditLogger.info(player, "Player " + player.getName() + " used flypath bug " + diff + " instead of "
 							+ path.getTimeInMs());
 				}
-				//FIX no anime for fly pass that is changed in client:D
-				if (diff < 5000) { // to check x_flipath file in client
-					AuditLogger.info(player, "Flypath: " + path.getId() + " bug, time: " + (diff / 1000)
-							+ " Fly teleport less than 5 sec; Kick-");
-					player.getClientConnection().close(new SM_QUIT_RESPONSE(), false);
-
-					/*
-					 * todo if works teleport player to start_* xyz, or even ban
-					 */
-
-				}
-				
 				player.setCurrentFlypath(null);
 			}
 
