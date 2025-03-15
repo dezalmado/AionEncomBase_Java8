@@ -41,10 +41,11 @@ public class _16975Fugative_Fragment extends QuestHandler {
 	public boolean onDialogEvent(QuestEnv env) {
 		Player player = env.getPlayer();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
+		QuestDialog dialog = env.getDialog();
 		int targetId = env.getTargetId();
 		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 0) {
-                switch (env.getDialog()) {
+                switch (dialog) {
                     case ACCEPT_QUEST:
 				    case ACCEPT_QUEST_SIMPLE: {  
 					    return sendQuestStartDialog(env);
@@ -54,7 +55,7 @@ public class _16975Fugative_Fragment extends QuestHandler {
                 }
 			}
         }
-        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+        else if (qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 801765) { //Rohellein.
 				return sendQuestEndDialog(env);
 			}

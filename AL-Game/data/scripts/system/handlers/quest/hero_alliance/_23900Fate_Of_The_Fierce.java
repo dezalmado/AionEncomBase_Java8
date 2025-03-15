@@ -14,11 +14,13 @@ package quest.hero_alliance;
 
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.utils.PacketSendUtility;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
@@ -59,7 +61,7 @@ public class _23900Fate_Of_The_Fierce extends QuestHandler {
 				}
 			}
 		}
-        if (qs == null || qs.getStatus() == QuestStatus.START) {
+        if (qs.getStatus() == QuestStatus.START) {
 			switch (targetId) {
 				case 799225: {
 					switch (env.getDialog()) {
@@ -70,7 +72,8 @@ public class _23900Fate_Of_The_Fierce extends QuestHandler {
 						} case STEP_TO_1: {
 							qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 							updateQuestStatus(env);
-				            return closeDialogWindow(env);
+							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+							return true;
 						}
 					}
 				} case 204182: {
@@ -82,7 +85,8 @@ public class _23900Fate_Of_The_Fierce extends QuestHandler {
 						} case STEP_TO_2: {
 							qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 							updateQuestStatus(env);
-				            return closeDialogWindow(env);
+							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+							return true;
 						}
 					}
 				} case 798718: {
@@ -93,17 +97,17 @@ public class _23900Fate_Of_The_Fierce extends QuestHandler {
 							qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 							qs.setStatus(QuestStatus.REWARD);
 							updateQuestStatus(env);
+							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 							return sendQuestEndDialog(env);
 						}
 					}
 				}
 			}
-		} 
-        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 798718) {
-				return sendQuestEndDialog(env);
+					return sendQuestEndDialog(env);
+				}
 			}
-		}
 		return false;
 	}
 }

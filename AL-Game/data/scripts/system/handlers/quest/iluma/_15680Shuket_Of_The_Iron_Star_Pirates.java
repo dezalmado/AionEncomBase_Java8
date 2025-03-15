@@ -15,6 +15,7 @@ package quest.iluma;
 import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
@@ -22,6 +23,7 @@ import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
 import com.aionemu.gameserver.services.QuestService;
+import com.aionemu.gameserver.utils.PacketSendUtility;
 import com.aionemu.gameserver.world.zone.ZoneName;
 
 /****/
@@ -67,39 +69,40 @@ public class _15680Shuket_Of_The_Iron_Star_Pirates extends QuestHandler {
 				}
 			}
 		}
-        if (qs == null || qs.getStatus() == QuestStatus.START) {
+        if (qs.getStatus() == QuestStatus.START) {
+            int var = qs.getQuestVarById(0); 
 			if (targetId == 806691) {
 				switch (env.getDialog()) {
 				    case START_DIALOG: {
-						if (qs.getQuestVarById(0) == 0) {
+						if (var == 0) {
 						    return sendQuestDialog(env, 1011);
-						} else if (qs.getQuestVarById(0) == 1) {
+						} else if (var == 1) {
 							return sendQuestDialog(env, 1352);
-						} else if (qs.getQuestVarById(0) == 2) {
+						} else if (var == 2) {
 							return sendQuestDialog(env, 1693);
-						} else if (qs.getQuestVarById(0) == 4) {
+						} else if (var == 4) {
 							return sendQuestDialog(env, 2375);
-						} else if (qs.getQuestVarById(0) == 7) {
+						} else if (var == 7) {
 							return sendQuestDialog(env, 3398);
 						}
 					} case SELECT_ACTION_1012: {
-						if (qs.getQuestVarById(0) == 0) {
+						if (var == 0) {
 							return sendQuestDialog(env, 1012);
 						}
 					} case SELECT_ACTION_1353: {
-						if (qs.getQuestVarById(0) == 1) {
+						if (var == 1) {
 							return sendQuestDialog(env, 1353);
 						}
 					} case SELECT_ACTION_1694: {
-						if (qs.getQuestVarById(0) == 2) {
+						if (var == 2) {
 							return sendQuestDialog(env, 1694);
 						}
 					} case SELECT_ACTION_2376: {
-						if (qs.getQuestVarById(0) == 4) {
+						if (var == 4) {
 							return sendQuestDialog(env, 2376);
 						}
 					} case SELECT_ACTION_3399: {
-						if (qs.getQuestVarById(0) == 7) {
+						if (var == 7) {
 							return sendQuestDialog(env, 3399);
 						}
 					} case STEP_TO_1: {
@@ -118,16 +121,22 @@ public class _15680Shuket_Of_The_Iron_Star_Pirates extends QuestHandler {
 						return closeDialogWindow(env);
 					} case CHECK_COLLECTED_ITEMS: {
 						return checkQuestItems(env, 1, 2, false, 10000, 10001);
+					} case FINISH_DIALOG: {
+						if (var == 2) {
+							defaultCloseDialog(env, 2, 2);
+						} else if (var == 1) {
+							defaultCloseDialog(env, 1, 1);
+						}
 					}
 				}
 			} if (targetId == 806693) { //DF6_FOBJ_Flowerpot_Q15680_A
                 switch (env.getDialog()) {
 				    case USE_OBJECT: {
-						if (qs.getQuestVarById(0) == 5) {
+						if (var == 5) {
 							return sendQuestDialog(env, 2716);
 						}
 					} case SELECT_ACTION_2717: {
-						if (qs.getQuestVarById(0) == 5) {
+						if (var == 5) {
 							return sendQuestDialog(env, 2717);
 						}
 					} case STEP_TO_6: {
@@ -141,11 +150,11 @@ public class _15680Shuket_Of_The_Iron_Star_Pirates extends QuestHandler {
             } if (targetId == 806694) { //DF6_FOBJ_Flowerpot_Q15680_B
                 switch (env.getDialog()) {
 				    case USE_OBJECT: {
-						if (qs.getQuestVarById(0) == 6) {
+						if (var == 6) {
 							return sendQuestDialog(env, 3057);
 						}
 					} case SELECT_ACTION_3058: {
-						if (qs.getQuestVarById(0) == 6) {
+						if (var == 6) {
 							return sendQuestDialog(env, 3058);
 						}
 					} case STEP_TO_7: {
@@ -155,7 +164,7 @@ public class _15680Shuket_Of_The_Iron_Star_Pirates extends QuestHandler {
 					}
 				}
 			}
-		} else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 806093) {
                 if (env.getDialog() == QuestDialog.START_DIALOG) {
                     return sendQuestDialog(env, 10002);

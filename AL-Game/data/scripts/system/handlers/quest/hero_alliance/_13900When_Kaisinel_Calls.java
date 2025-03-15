@@ -14,11 +14,13 @@ package quest.hero_alliance;
 
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.utils.PacketSendUtility;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
@@ -59,7 +61,7 @@ public class _13900When_Kaisinel_Calls extends QuestHandler {
 				}
 			}
 		}
-        if (qs == null || qs.getStatus() == QuestStatus.START) {
+        if (qs.getStatus() == QuestStatus.START) {
 			switch (targetId) {
 				case 798926: {
 					switch (env.getDialog()) {
@@ -70,7 +72,8 @@ public class _13900When_Kaisinel_Calls extends QuestHandler {
 						} case STEP_TO_1: {
 							qs.setQuestVar(1);
 							updateQuestStatus(env);
-				            return closeDialogWindow(env);
+							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+							return true;
 						}
 					}
 				} case 203726: {
@@ -82,7 +85,8 @@ public class _13900When_Kaisinel_Calls extends QuestHandler {
 						} case STEP_TO_2: {
 							qs.setQuestVar(2);
 							updateQuestStatus(env);
-				            return closeDialogWindow(env);
+							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+							return true;
 						}
 					}
 				} case 798514: {
@@ -95,13 +99,13 @@ public class _13900When_Kaisinel_Calls extends QuestHandler {
 							qs.setQuestVar(3);
 							qs.setStatus(QuestStatus.REWARD);
 							updateQuestStatus(env);
+							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 							return sendQuestEndDialog(env);
 						}
 					}
 				}
 			}
-		} 
-        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 798514) {
                 return sendQuestEndDialog(env);
 			}

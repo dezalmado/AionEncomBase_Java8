@@ -59,11 +59,7 @@ public class _14112Pollution_Resolution extends QuestHandler {
 				        return closeDialogWindow(env);
 				}
 			}
-		}
-        if (qs == null) {
-		    return false;
-		} 
-        else if (qs.getStatus() == QuestStatus.START) {
+		} else if (qs.getStatus() == QuestStatus.START) {
 			switch (targetId) {
 				case 203148: {
 					switch (dialog) {

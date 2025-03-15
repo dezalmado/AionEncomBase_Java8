@@ -42,9 +42,10 @@ public class _17550 extends QuestHandler {
     public boolean onDialogEvent(QuestEnv env) {
         final Player player = env.getPlayer();
         final QuestState qs = player.getQuestStateList().getQuestState(questId);
+		QuestDialog dialog = env.getDialog();
 		int targetId = env.getTargetId();
 		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
-			if (targetId == 806134) { 
+			if (targetId == 806789) { 
 				switch (env.getDialog()) {
 					case START_DIALOG: {
 						return sendQuestDialog(env, 4762);
@@ -57,10 +58,11 @@ public class _17550 extends QuestHandler {
 				}
 			}
 		}
-		if (qs == null || qs.getStatus() == QuestStatus.START) {
+		if (qs.getStatus() == QuestStatus.START) {
+            int var = qs.getQuestVarById(0);
 			switch (targetId) {
 				case 806789: {
-				    switch (env.getDialog()) {
+					switch (dialog) {
 						case START_DIALOG: {
 							return sendQuestDialog(env, 10002);
 						} case SELECT_REWARD: {
@@ -70,8 +72,7 @@ public class _17550 extends QuestHandler {
 					}
 				}
 			}
-		}
-        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs.getStatus() == QuestStatus.REWARD) {
 		    if (targetId == 806789) {
 			    return sendQuestEndDialog(env);
 		    }

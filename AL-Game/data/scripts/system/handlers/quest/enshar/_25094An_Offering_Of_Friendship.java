@@ -41,10 +41,11 @@ public class _25094An_Offering_Of_Friendship extends QuestHandler {
 	public boolean onDialogEvent(QuestEnv env) {
 		Player player = env.getPlayer();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
+		QuestDialog dialog = env.getDialog();
 		int targetId = env.getTargetId();
 		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 804929) {
-				switch (env.getDialog()) {
+				switch (dialog) {
 					case START_DIALOG: {
 						return sendQuestDialog(env, 4762);
 					}
@@ -57,20 +58,23 @@ public class _25094An_Offering_Of_Friendship extends QuestHandler {
 			}
 		} else if (qs.getStatus() == QuestStatus.START) {
             if (targetId == 702768) { 
-			if (env.getDialog() == QuestDialog.USE_OBJECT) {
+			if (dialog == QuestDialog.USE_OBJECT) {
+				closeDialogWindow(env);
 				return true;
 			   }
 		    }   
             if (targetId == 804929) {
-				switch (env.getDialog()) {
+				switch (dialog) {
 					case START_DIALOG: {
 						return sendQuestDialog(env, 1011);
 					} case CHECK_COLLECTED_ITEMS: {
 						return checkQuestItems(env, 0, 1, true, 10000, 10001);
+					} case FINISH_DIALOG: {
+						return sendQuestSelectionDialog(env);
 					}
 				}
 			}
-		} else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 804740) {
 				return sendQuestEndDialog(env);
 			}

@@ -28,6 +28,7 @@ public class _17525 extends QuestHandler {
 
     private final static int questId = 17525;
 	private final static int[] IDAbReCore03A2Witch = {248423, 248424, 248426};
+	
     public _17525() {
         super(questId);
     }
@@ -48,6 +49,7 @@ public class _17525 extends QuestHandler {
     public boolean onDialogEvent(QuestEnv env) {
         final Player player = env.getPlayer();
         final QuestState qs = player.getQuestStateList().getQuestState(questId);
+		QuestDialog dialog = env.getDialog();
 		int targetId = env.getTargetId();
 		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 805351) { 
@@ -63,7 +65,7 @@ public class _17525 extends QuestHandler {
 				}
 			}
 		}
-		if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		if (qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 805351) {
                 if (env.getDialog() == QuestDialog.START_DIALOG) {
                     return sendQuestDialog(env, 10002);

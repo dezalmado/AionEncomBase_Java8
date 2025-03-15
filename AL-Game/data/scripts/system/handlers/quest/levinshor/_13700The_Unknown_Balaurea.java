@@ -41,10 +41,11 @@ public class _13700The_Unknown_Balaurea extends QuestHandler {
 	public boolean onDialogEvent(QuestEnv env) {
 		Player player = env.getPlayer();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
+		QuestDialog dialog = env.getDialog();
 		int targetId = env.getTargetId();
 		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 804699) { //Atmis.
-				switch (env.getDialog()) {
+				switch (dialog) {
 					case START_DIALOG: {
 						return sendQuestDialog(env, 1011);
 					}
@@ -53,10 +54,10 @@ public class _13700The_Unknown_Balaurea extends QuestHandler {
 						return sendQuestStartDialog(env);
 				}
 			}
-		} else if (qs == null || qs.getStatus() == QuestStatus.START) {
+		} else if (qs.getStatus() == QuestStatus.START) {
 			switch (targetId) {
 				case 802350: { //Eljer.
-					switch (env.getDialog()) {
+					switch (dialog) {
 						case START_DIALOG: {
 							return sendQuestDialog(env, 2375);
 						} case SELECT_REWARD: {
@@ -67,7 +68,7 @@ public class _13700The_Unknown_Balaurea extends QuestHandler {
 					}
 				}
 			}
-		} else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs.getStatus() == QuestStatus.REWARD) {
 		    if (targetId == 802350) { //Eljer.
 			    return sendQuestEndDialog(env);
 		    }

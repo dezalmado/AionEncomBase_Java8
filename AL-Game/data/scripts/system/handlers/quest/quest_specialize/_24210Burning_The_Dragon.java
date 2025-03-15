@@ -58,11 +58,7 @@ public class _24210Burning_The_Dragon extends QuestHandler {
 						return sendQuestStartDialog(env);
 				}
 			}
-		}
-        if (qs == null) {
-		    return false;
-		} 
-        else if (qs.getStatus() == QuestStatus.START) {
+		} else if (qs.getStatus() == QuestStatus.START) {
 			if (targetId == 802465 ||
 			    targetId == 802663 ||
 				targetId == 802664 ||

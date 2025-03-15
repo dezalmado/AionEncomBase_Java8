@@ -24,6 +24,7 @@ import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.services.QuestService;
 
 /**
  * @author Cheatkiller
@@ -31,6 +32,7 @@ import com.aionemu.gameserver.questEngine.model.QuestStatus;
 public class _1198TheWritingOnTheWall extends QuestHandler {
 
 	private final static int questId = 1198;
+
 	public _1198TheWritingOnTheWall() {
 		super(questId);
 	}
@@ -48,10 +50,12 @@ public class _1198TheWritingOnTheWall extends QuestHandler {
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
 		QuestDialog dialog = env.getDialog();
 		int targetId = env.getTargetId();
+
 		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 0) {
 				if (dialog == QuestDialog.ACCEPT_QUEST) {
-				    return sendQuestStartDialog(env);
+					QuestService.startQuest(env);
+					return closeDialogWindow(env);
 				}
 				else if (dialog == QuestDialog.REFUSE_QUEST) {
 					return closeDialogWindow(env);
@@ -71,7 +75,7 @@ public class _1198TheWritingOnTheWall extends QuestHandler {
 				}
 			}
 		}
-		else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		else if (qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 203098) {
 				return sendQuestEndDialog(env);
 			}
