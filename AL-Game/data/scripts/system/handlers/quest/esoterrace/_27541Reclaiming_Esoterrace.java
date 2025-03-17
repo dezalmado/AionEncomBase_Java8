@@ -18,6 +18,7 @@ import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.services.QuestService;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
@@ -57,7 +58,18 @@ public class _27541Reclaiming_Esoterrace extends QuestHandler {
                 }
 			}
 		}
-        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		if (qs.getStatus() == QuestStatus.START) {
+            if (targetId == 799558) { //Luigir.
+                if (env.getDialog() == QuestDialog.START_DIALOG) {
+                    if (qs.getQuestVarById(0) == 2) {
+                        return sendQuestDialog(env, 2375);
+                    }
+                } if (env.getDialog() == QuestDialog.SELECT_REWARD) {
+                    changeQuestStep(env, 1, 2, true);
+                    return sendQuestEndDialog(env);
+                }
+			}
+        } else if (qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 799558) { //Luigir.
                 if (env.getDialog() == QuestDialog.START_DIALOG) {
                     return sendQuestDialog(env, 10002);

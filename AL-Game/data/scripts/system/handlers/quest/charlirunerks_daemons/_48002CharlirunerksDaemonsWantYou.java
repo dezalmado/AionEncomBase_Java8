@@ -36,31 +36,37 @@ public class _48002CharlirunerksDaemonsWantYou extends QuestHandler {
 
 	@Override
 	public void register() {
-		qe.registerOnLevelUp(questId);
+        qe.registerQuestNpc(205847).addOnQuestStart(questId);
+		qe.registerQuestNpc(205847).addOnTalkEvent(questId);
 		qe.registerQuestNpc(799886).addOnTalkEvent(questId);
-	}
-
-	@Override
-	public boolean onLvlUpEvent(QuestEnv env) {
-		Player player = env.getPlayer();
-		QuestState qs = player.getQuestStateList().getQuestState(questId);
-		if (player.getLevel() >= 50 && (qs == null || qs.getStatus() == QuestStatus.NONE)) {
-			return QuestService.startQuest(env);
-		}
-		return false;
 	}
 
 	@Override
 	public boolean onDialogEvent(QuestEnv env) {
 		Player player = env.getPlayer();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
+		QuestDialog dialog = env.getDialog();
 		int targetId = env.getTargetId();
+        if (qs == null || qs.getStatus() == QuestStatus.NONE) {
+			if (targetId == 205847) {
+                switch (env.getDialog()) {
+                    case START_DIALOG: {
+                        return sendQuestDialog(env, 4762);
+					} case ACCEPT_QUEST:
+					case ACCEPT_QUEST_SIMPLE: {
+						return sendQuestStartDialog(env);
+					} case REFUSE_QUEST_SIMPLE: {
+				        return closeDialogWindow(env);
+					}
+                }
+			}
+		}
 		if (qs != null && qs.getStatus() == QuestStatus.START) {
 			if (targetId == 799886) { // Tikalanerk
-				if (env.getDialog() == QuestDialog.START_DIALOG) {
+				if (dialog == QuestDialog.START_DIALOG) {
 					return sendQuestDialog(env, 10002);
 				}
-				else if (env.getDialog() == QuestDialog.SELECT_REWARD) {
+				else if (dialog == QuestDialog.SELECT_REWARD) {
 					changeQuestStep(env, 0, 0, true);
 					return sendQuestDialog(env, 5);
 				}
