@@ -52,6 +52,7 @@ public class _20521Recovered_Destiny extends QuestHandler {
         for (int npc: npcs) {
             qe.registerQuestNpc(npc).addOnTalkEvent(questId);
         }
+        qe.registerQuestNpc(806079).addOnTalkEndEvent(questId); 
 		qe.registerOnDie(questId);
 		qe.registerOnLogOut(questId);
 		qe.registerOnLevelUp(questId);

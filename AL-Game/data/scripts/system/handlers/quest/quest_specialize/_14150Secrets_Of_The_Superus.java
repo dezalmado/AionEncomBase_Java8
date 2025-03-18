@@ -26,6 +26,7 @@ import com.aionemu.gameserver.questEngine.model.QuestStatus;
 public class _14150Secrets_Of_The_Superus extends QuestHandler {
 	
     private final static int questId = 14150;
+	
     public _14150Secrets_Of_The_Superus() {
         super(questId);
     }
@@ -68,6 +69,9 @@ public class _14150Secrets_Of_The_Superus extends QuestHandler {
 						updateQuestStatus(env);
 						return checkQuestItems(env, 1, 2, true, 5, 2716);
 					}
+					case FINISH_DIALOG: {
+					    return sendQuestSelectionDialog(env);
+				    }
 				}
 			} else if (targetId == 204582) { //Ibelia
 				switch (env.getDialog()) {
@@ -86,6 +90,7 @@ public class _14150Secrets_Of_The_Superus extends QuestHandler {
 			} else if (targetId == 700217 && qs.getQuestVarById(0) == 1) { //Engraved Stone Tablet
                 switch (env.getDialog()) {
                     case USE_OBJECT: {
+						// giveQuestItem(env, 182215458, 1);
 						return true;
 					}
                 }

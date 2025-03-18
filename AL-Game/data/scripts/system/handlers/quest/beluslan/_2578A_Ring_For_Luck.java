@@ -15,12 +15,15 @@ package quest.beluslan;
 import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.services.QuestService;
+import com.aionemu.gameserver.utils.PacketSendUtility;
 
 public class _2578A_Ring_For_Luck extends QuestHandler {
 
@@ -57,7 +60,8 @@ public class _2578A_Ring_For_Luck extends QuestHandler {
 		} if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 0) { 
 				if (env.getDialog() == QuestDialog.ACCEPT_QUEST) {
-				    return sendQuestStartDialog(env);
+					QuestService.startQuest(env);
+					return closeDialogWindow(env);
 				}
 				if (env.getDialog() == QuestDialog.REFUSE_QUEST) {
 					return closeDialogWindow(env);
@@ -70,7 +74,8 @@ public class _2578A_Ring_For_Luck extends QuestHandler {
 				} else if (env.getDialog() == QuestDialog.STEP_TO_1) {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					updateQuestStatus(env);
-                    return closeDialogWindow(env);
+					PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+					return true;
 				}
 			} else if (targetId == 790017) {
 				if (env.getDialog() == QuestDialog.START_DIALOG) {
@@ -78,7 +83,8 @@ public class _2578A_Ring_For_Luck extends QuestHandler {
 				} else if (env.getDialog() == QuestDialog.STEP_TO_2) {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					updateQuestStatus(env);
-                    return closeDialogWindow(env);
+					PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+					return true;
 				}
 			} else if (targetId == 204746) {
 				if (env.getDialog() == QuestDialog.START_DIALOG) {
@@ -87,6 +93,7 @@ public class _2578A_Ring_For_Luck extends QuestHandler {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					qs.setStatus(QuestStatus.REWARD);
 					updateQuestStatus(env);
+					PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 					return sendQuestEndDialog(env);
 				}
 			}

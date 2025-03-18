@@ -15,6 +15,7 @@ package quest.quest_specialize;
 import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_ITEM_USAGE_ANIMATION;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
@@ -23,8 +24,8 @@ import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
 import com.aionemu.gameserver.skillengine.SkillEngine;
-import com.aionemu.gameserver.utils.ThreadPoolManager;
 import com.aionemu.gameserver.utils.PacketSendUtility;
+import com.aionemu.gameserver.utils.ThreadPoolManager;
 import com.aionemu.gameserver.world.zone.ZoneName;
 
 /****/
@@ -64,7 +65,7 @@ public class _14153A_Storm_Of_Vengeance extends QuestHandler {
                 }
             }
         }  
-        else if (qs == null || qs.getStatus() == QuestStatus.START) {
+        else if (qs.getStatus() == QuestStatus.START) {
             int var = qs.getQuestVarById(0);
             if (targetId == 204505) {
             switch (env.getDialog()) {
@@ -76,10 +77,14 @@ public class _14153A_Storm_Of_Vengeance extends QuestHandler {
                     if (var == 0) {
                         qs.setQuestVarById(0, var + 1);
                         updateQuestStatus(env);
-                        return closeDialogWindow(env);
+                        PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+                        return true;
                     }
+                    return false;
+					default:
+					break;
             }
-        } if (targetId == 204533) {
+        } else if (targetId == 204533) {
             switch (env.getDialog()) {
                 case START_DIALOG:
                     if (var == 1) {
@@ -91,16 +96,21 @@ public class _14153A_Storm_Of_Vengeance extends QuestHandler {
                     if (var == 1) {
                         qs.setQuestVarById(0, var + 1);
                         updateQuestStatus(env);
-                        return closeDialogWindow(env);
+                        PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+                        return true;
                     }
                 case STEP_TO_4:
                     if (var == 3) {
                         qs.setQuestVarById(0, var + 1);
                         updateQuestStatus(env);
-                        return closeDialogWindow(env);
+                        PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+                        return true;
                     }
+                    return false;
+					default:
+					break;
             }
-        } if (targetId == 204535) {
+        } else if (targetId == 204535) {
             switch (env.getDialog()) {
                 case START_DIALOG:
                     if (var == 4) {
@@ -108,24 +118,30 @@ public class _14153A_Storm_Of_Vengeance extends QuestHandler {
                     }
                 case STEP_TO_5:
                     if (var == 4) {
-                      giveQuestItem(env, 182215459, 1);
-                      qs.setQuestVarById(0, var + 1);
-                      updateQuestStatus(env);
-                      return closeDialogWindow(env);
-                    }  
+                        if (!giveQuestItem(env, 182215459, 1)) {
+                            return true;
+                        }
+                        qs.setQuestVarById(0, var + 1);
+                        updateQuestStatus(env);
+                        PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+                        return true;
+                    }
+                    return false;
+					default:
+					break;
                 }
             } 
-            if (targetId == 700282 && var == 2) {
+            else if (targetId == 700282 && var == 2) {
                 if (env.getDialog() == QuestDialog.USE_OBJECT) {
                     return playQuestMovie(env, 193);
                 }
             }
         }
-        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+        else if (qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 204505) { //Sofne.
-                return sendQuestEndDialog(env);
+                    return sendQuestEndDialog(env);
+                }
             }
-        }
         return false;
     }
 	

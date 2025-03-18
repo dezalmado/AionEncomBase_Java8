@@ -20,11 +20,14 @@ import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.utils.PacketSendUtility;
+import com.aionemu.gameserver.services.QuestService;
 
 /**
  * @author Majka Ajural
@@ -53,7 +56,9 @@ public class _2296ABillFoundinaBox extends QuestHandler {
 		}
         if (targetId == 0) {
 			if (env.getDialogId() == 1002) {
-				return sendQuestStartDialog(env);
+				QuestService.startQuest(env);
+				PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(0, 0));
+				return true;
 			}
 			if (env.getDialogId() == 1003) {
 				return closeDialogWindow(env);
@@ -66,6 +71,9 @@ public class _2296ABillFoundinaBox extends QuestHandler {
 				}
 				else if (env.getDialog() == QuestDialog.STEP_TO_1) {
 					return defaultCloseDialog(env, 0, 1); // 1
+				}
+				else {
+					return sendQuestStartDialog(env);
 				}
 			}
 		}

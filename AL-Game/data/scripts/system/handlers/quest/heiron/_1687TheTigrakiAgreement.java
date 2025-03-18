@@ -23,10 +23,9 @@ import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
-import com.aionemu.gameserver.services.QuestService;
 
 /**
- * Go to Draupnir Cave in Asmodae and get Blue Balaur Blood (186000035) (2) and Balaur Rainbow Scales (186000036) (6)
+ * Go to Draupnir Cave in Asmodae and get Blue Balaur Blood (186000035) (2) and Balaur Rainbow Scales (186000036) (5)
  * for Brosia (204601). Go to Brosia to choose your reward.
  * 
  * @author Balthazar
@@ -36,7 +35,8 @@ import com.aionemu.gameserver.services.QuestService;
 public class _1687TheTigrakiAgreement extends QuestHandler {
 
 	private final static int questId = 1687;
-	private int rewardId;
+	private int rewardGroup;
+
 	public _1687TheTigrakiAgreement() {
 		super(questId);
 	}
@@ -69,41 +69,36 @@ public class _1687TheTigrakiAgreement extends QuestHandler {
 					case START_DIALOG:
 						return sendQuestDialog(env, 1011);
 					case CHECK_COLLECTED_ITEMS: {
-						if (QuestService.collectItemCheck(env, true)) {
-							qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
-						    updateQuestStatus(env);
+						long collect1 = player.getInventory().getItemCountByItemId(186000035);
+						long collect2 = player.getInventory().getItemCountByItemId(186000036);
+						if (collect1 >= 2 && collect2 >= 5) {
+							removeQuestItem(env, 186000035, 2);
+							removeQuestItem(env, 186000036, 5);
 							return sendQuestDialog(env, 1352); // choose your reward
 						}
 						else
 							return sendQuestDialog(env, 1097);
 					}
-                    case SELECT_ACTION_1354: {
-						rewardId = 0;
-						return sendQuestDialog(env, 1354);
-                    }
-				    case SELECT_ACTION_1375: {
-						rewardId = 1;
-						return sendQuestDialog(env, 1375);
-                    }  
-					case SELECT_ACTION_1396: {
-						rewardId = 2;
-						return sendQuestDialog(env, 1396);
-                    }
+					case FINISH_DIALOG:
+						return defaultCloseDialog(env, var, var);
 					case STEP_TO_10: {
+						rewardGroup = 0;
 						return defaultCloseDialog(env, var, var, true, true, 0); // reward 1
 					}
 					case STEP_TO_20: {
+						rewardGroup = 1;
 						return defaultCloseDialog(env, var, var, true, true, 1); // reward 2
 					}
 					case STEP_TO_30: {
+						rewardGroup = 2;
 						return defaultCloseDialog(env, var, var, true, true, 2); // reward 3
 					}
 				}
 			}
 		}
 		else if (qs.getStatus() == QuestStatus.REWARD) {
-			if (targetId == 204601) {
-				return sendQuestEndDialog(env, rewardId);
+			if (targetId == 204601) { // Brosia
+				return sendQuestEndDialog(env, rewardGroup);
 			}
 		}
 		return false;

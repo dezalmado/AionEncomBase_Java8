@@ -21,6 +21,7 @@ import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.VisibleObject;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_ITEM_USAGE_ANIMATION;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
@@ -55,16 +56,17 @@ public class _1114TheNymphsGown extends QuestHandler {
 		final QuestState qs = player.getQuestStateList().getQuestState(questId);
 		if (env.getVisibleObject() instanceof Npc)
 			targetId = ((Npc) env.getVisibleObject()).getNpcId();
-        if (qs == null || qs.getStatus() == QuestStatus.NONE) {
-			if (targetId == 0) { 
-				if (env.getDialog() == QuestDialog.ACCEPT_QUEST) {
-					giveQuestItem(env, 182200226, 1);
-/* 					removeQuestItem(env, 182200214, 1); // Namus's Diary with double-click to start the quest */
-					return sendQuestStartDialog(env);
+		if (targetId == 0) {
+			if (qs == null || qs.getStatus() == QuestStatus.NONE) {
+				if (env.getDialogId() == 1002) {
+					QuestService.startQuest(env);
+					if (!giveQuestItem(env, 182200226, 1));
+					removeQuestItem(env, 182200214, 1); // Namus's Diary with double-click to start the quest
+					PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(0, 0));
+					return true;
 				}
-				if (env.getDialog() == QuestDialog.REFUSE_QUEST) {
-					return closeDialogWindow(env);
-				}
+				else
+					PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(0, 0));
 			}
 		}
 		if (qs == null)
@@ -113,13 +115,15 @@ public class _1114TheNymphsGown extends QuestHandler {
 						qs.setQuestVarById(0, var + 1);
 						updateQuestStatus(env);
 						removeQuestItem(env, 182200226, 1);
-					    return closeDialogWindow(env);
+						PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+						return true;
 					}
 				case STEP_TO_2:
 					if (var == 2) {
 						qs.setQuestVarById(0, var + 1);
 						updateQuestStatus(env);
-					    return closeDialogWindow(env);
+						PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+						return true;
 					}
 			}
 		}
@@ -167,11 +171,16 @@ public class _1114TheNymphsGown extends QuestHandler {
 
 	@Override
 	public HandlerResult onItemUseEvent(QuestEnv env, Item item) {
-		Player player = env.getPlayer();
+		final Player player = env.getPlayer();
+		final int id = item.getItemTemplate().getTemplateId();
+		final int itemObjId = item.getObjectId();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
-		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
-			return HandlerResult.fromBoolean(sendQuestDialog(env, 4));
-		}
-		return HandlerResult.FAILED;
+		if (id != 182200214)
+			return HandlerResult.UNKNOWN;
+		PacketSendUtility.broadcastPacket(player,
+			new SM_ITEM_USAGE_ANIMATION(player.getObjectId(), itemObjId, id, 20, 1, 0), true);
+		if (qs == null || qs.getStatus() == QuestStatus.NONE)
+			sendQuestDialog(env, 4);
+		return HandlerResult.SUCCESS;
 	}
 }

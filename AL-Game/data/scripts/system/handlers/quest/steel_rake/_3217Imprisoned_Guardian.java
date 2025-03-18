@@ -61,8 +61,7 @@ public class _3217Imprisoned_Guardian extends QuestHandler {
 			}
 			return false;
 		  }
-       }
-       if (qs == null || qs.getStatus() == QuestStatus.START) {
+       }  if (qs.getStatus() == QuestStatus.START) {
 			if (targetId == 798335) {
 				switch (env.getDialog()) {
 					case START_DIALOG: {
@@ -82,8 +81,7 @@ public class _3217Imprisoned_Guardian extends QuestHandler {
 					}
 				}
 			}
-		} 
-        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 204590) {
 				return sendQuestEndDialog(env);
 			}

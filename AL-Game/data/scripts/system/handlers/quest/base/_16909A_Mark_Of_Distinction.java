@@ -20,6 +20,7 @@ import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.services.QuestService;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
@@ -46,7 +47,8 @@ public class _16909A_Mark_Of_Distinction extends QuestHandler {
         if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 0) { 
 				if (env.getDialog() == QuestDialog.ACCEPT_QUEST) {
-                    return sendQuestStartDialog(env);
+					QuestService.startQuest(env);
+					return closeDialogWindow(env);
 				}
 				if (env.getDialog() == QuestDialog.REFUSE_QUEST) {
 					return closeDialogWindow(env);
@@ -66,7 +68,7 @@ public class _16909A_Mark_Of_Distinction extends QuestHandler {
              } 
           }   
        }
-       else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+       else if (qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 801203) {
 				return sendQuestEndDialog(env);
 			}

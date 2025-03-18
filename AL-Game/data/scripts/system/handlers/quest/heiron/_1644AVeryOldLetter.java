@@ -19,11 +19,16 @@ package quest.heiron;
 import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_ITEM_USAGE_ANIMATION;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.services.QuestService;
+import com.aionemu.gameserver.utils.PacketSendUtility;
+import com.aionemu.gameserver.utils.ThreadPoolManager;
 
 /**
  * @author Balthazar
@@ -53,7 +58,9 @@ public class _1644AVeryOldLetter extends QuestHandler {
 			targetId = ((Npc) env.getVisibleObject()).getNpcId();
 		if (targetId == 0) {
 			if (env.getDialogId() == 1002) {
-				return sendQuestStartDialog(env);
+				QuestService.startQuest(env);
+				PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(0, 0));
+				return true;
 			}
 			if (env.getDialogId() == 1003) {
                 return closeDialogWindow(env);
@@ -109,12 +116,28 @@ public class _1644AVeryOldLetter extends QuestHandler {
 	}
 
 	@Override
-	public HandlerResult onItemUseEvent(QuestEnv env, Item item) {
-		Player player = env.getPlayer();
+	public HandlerResult onItemUseEvent(final QuestEnv env, Item item) {
+		final Player player = env.getPlayer();
+		final int itemObjId = item.getObjectId();
+		final int id = item.getItemTemplate().getTemplateId();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
-		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
-			return HandlerResult.fromBoolean(sendQuestDialog(env, 4));
+		if (id != 182201765) {
+			return HandlerResult.UNKNOWN;
 		}
-		return HandlerResult.FAILED;
+		if (qs != null) {
+			if (qs.getStatus() == QuestStatus.COMPLETE) {
+				removeQuestItem(env, 182201765, 1);
+				return HandlerResult.FAILED;
+			}
+		}
+		PacketSendUtility.broadcastPacket(player, new SM_ITEM_USAGE_ANIMATION(player.getObjectId(), itemObjId, id, 3000, 0, 0), true);
+		ThreadPoolManager.getInstance().schedule(new Runnable() {
+			@Override
+			public void run() {
+				PacketSendUtility.broadcastPacket(player, new SM_ITEM_USAGE_ANIMATION(player.getObjectId(), itemObjId, id, 0, 1, 0), true);
+				sendQuestDialog(env, 4);
+			}
+		}, 3000);
+		return HandlerResult.SUCCESS;
 	}
 }

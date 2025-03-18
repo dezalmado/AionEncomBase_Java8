@@ -33,6 +33,7 @@ import com.aionemu.gameserver.utils.PacketSendUtility;
 public class _1111InsomniaMedicine extends QuestHandler {
 
 	private final static int questId = 1111;
+
 	public _1111InsomniaMedicine() {
 		super(questId);
 	}
@@ -58,7 +59,7 @@ public class _1111InsomniaMedicine extends QuestHandler {
 				else
 					return sendQuestStartDialog(env);
 			}
-			else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+			else if (qs.getStatus() == QuestStatus.REWARD) {
 				if (env.getDialog() == QuestDialog.USE_OBJECT) {
 					if (qs.getQuestVarById(0) == 2) {
 						removeQuestItem(env, 182200222, 1);
@@ -102,14 +103,16 @@ public class _1111InsomniaMedicine extends QuestHandler {
                 qs.setStatus(QuestStatus.REWARD);
 				qs.setQuestVarById(0, 2);
 				updateQuestStatus(env);
-				return closeDialogWindow(env);
+				PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+				return true;
 			}
 			else if (env.getDialog() == QuestDialog.STEP_TO_2) {
 				giveQuestItem(env, 182200221, 1);
                 qs.setStatus(QuestStatus.REWARD);
 				qs.setQuestVarById(0, 3);
 				updateQuestStatus(env);
-				return closeDialogWindow(env);
+				PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+				return true;
                 }
 			}
 		}
