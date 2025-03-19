@@ -10,7 +10,7 @@
  * You have agree with all of Term of Services agreement with Aion-Unique Development   *
  * =====================================================================================*
  */
-package quest.enshar;
+package quest.cygnea;
 
 import com.aionemu.gameserver.model.gameobjects.player.Player;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
@@ -22,20 +22,19 @@ import com.aionemu.gameserver.questEngine.model.QuestStatus;
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
-public class _25203Creatures_Of_Cloudtalon_Valley extends QuestHandler {
 
-    private final static int questId = 25203;
-	private final static int[] mobs = {219692, 219693, 219694, 219695, 219696, 219697, 219698};
-    public _25203Creatures_Of_Cloudtalon_Valley() {
+public class _18974Protect_Erivale extends QuestHandler {
+
+    private final static int questId = 18974;
+    public _18974Protect_Erivale() {
         super(questId);
     }
 	
     public void register() {
-        qe.registerQuestNpc(804914).addOnQuestStart(questId);
-        qe.registerQuestNpc(804914).addOnTalkEvent(questId);
-		for (int mob: mobs) {
-			qe.registerQuestNpc(mob).addOnKillEvent(questId);
-		}
+        qe.registerQuestNpc(804865).addOnQuestStart(questId);
+        qe.registerQuestNpc(804865).addOnTalkEvent(questId);
+		qe.registerQuestNpc(805215).addOnTalkEvent(questId);
+		qe.registerQuestNpc(235881).addOnKillEvent(questId);
     }
 	
     @Override
@@ -43,9 +42,10 @@ public class _25203Creatures_Of_Cloudtalon_Valley extends QuestHandler {
         Player player = env.getPlayer();
         int targetId = env.getTargetId();
         QuestState qs = player.getQuestStateList().getQuestState(questId);
+        QuestDialog dialog = env.getDialog();
         if (qs == null || qs.getStatus() == QuestStatus.NONE || qs.canRepeat()) {
-            if (targetId == 804914) {
-                if (env.getDialog() == QuestDialog.START_DIALOG) {
+            if (targetId == 804865) {
+                if (dialog == QuestDialog.START_DIALOG) {
                     return sendQuestDialog(env, 4762);
                 } else {
                     return sendQuestStartDialog(env);
@@ -53,7 +53,7 @@ public class _25203Creatures_Of_Cloudtalon_Valley extends QuestHandler {
             }
         }
         else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
-			if (targetId == 804914) {
+			if (targetId == 805215) {
 				if (env.getDialogId() == 1352) {
 					return sendQuestDialog(env, 5);
 				} else {
@@ -69,18 +69,12 @@ public class _25203Creatures_Of_Cloudtalon_Valley extends QuestHandler {
         QuestState qs = player.getQuestStateList().getQuestState(questId);
         if (qs != null && qs.getStatus() == QuestStatus.START) {
             switch (env.getTargetId()) {
-				case 219692:
-				case 219693:
-				case 219694:
-				case 219695:
-				case 219696:
-				case 219697:
-				case 219698:
-                if (qs.getQuestVarById(1) < 10) {
+                case 235881:
+                if (qs.getQuestVarById(1) < 6) {
 					qs.setQuestVarById(1, qs.getQuestVarById(1) + 1);
 					updateQuestStatus(env);
-				} if (qs.getQuestVarById(1) >= 10) {
-                    qs.setQuestVarById(0, 1);
+				} if (qs.getQuestVarById(1) >= 6) {
+					qs.setQuestVarById(0, 1);
 					qs.setStatus(QuestStatus.REWARD);
 					updateQuestStatus(env);
 				}
