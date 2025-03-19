@@ -45,6 +45,9 @@ public class _30217Group_Stigmas_Scars extends QuestHandler {
 		final Player player = env.getPlayer();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
 		int targetId = 0;
+		if (qs == null) {
+			return false;
+		}
 		if (env.getVisibleObject() instanceof Npc)
 			targetId = ((Npc) env.getVisibleObject()).getNpcId();
 		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
@@ -55,16 +58,13 @@ public class _30217Group_Stigmas_Scars extends QuestHandler {
 					return sendQuestStartDialog(env);
 			}
 		}
-		if (qs == null) {
-			return false;
-		}
-		if (qs.getStatus() == QuestStatus.START) {
 		int var = qs.getQuestVarById(0);
+		if (qs != null && qs.getStatus() == QuestStatus.START) {
 			switch (targetId) {
 				case 798941: {
 					switch (env.getDialog()) {
 						case START_DIALOG:
-							if (var == 0)
+							if (var == 0 && qs != null)
 								return sendQuestDialog(env, 1011);
 						case STEP_TO_1:
 							QuestService.addNewSpawn(player.getWorldId(), player.getInstanceId(), 799506, player.getX(), player.getY(), player.getZ(), player.getHeading());
