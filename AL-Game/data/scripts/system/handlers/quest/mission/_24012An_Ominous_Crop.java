@@ -24,9 +24,10 @@ import com.aionemu.gameserver.world.zone.ZoneName;
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _24012An_Ominous_Crop extends QuestHandler {
-
+public class _24012An_Ominous_Crop extends QuestHandler
+{
     private final static int questId = 24012;
+	
     public _24012An_Ominous_Crop() {
         super(questId);
     }
@@ -76,6 +77,7 @@ public class _24012An_Ominous_Crop extends QuestHandler {
                         case CHECK_COLLECTED_ITEMS:
                             return checkQuestItems(env, 5, 5, true, 5, 2120);
                     }
+                    break;
                 } case 700096: {
                     switch (env.getDialog()) {
                         case USE_OBJECT: {

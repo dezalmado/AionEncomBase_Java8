@@ -26,12 +26,13 @@ import com.aionemu.gameserver.world.zone.ZoneName;
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _14014Turning_The_Ide extends QuestHandler {
-
+public class _14014Turning_The_Ide extends QuestHandler
+{
     private final static int questId = 14014;
     private final static int[] npcs = {203098, 203146, 203147, 802045};
     private final static int[] mobs = {210178, 210179, 216892};
     private final static int[] items = {182215314}; //Transformation Potion 4.7
+	
     public _14014Turning_The_Ide() {
         super(questId);
     }
@@ -84,6 +85,7 @@ public class _14014Turning_The_Ide extends QuestHandler {
                             return defaultCloseDialog(env, 0, 1);
                         }
                     }
+                    break;
                 } case 203147: { //Meteina.
                     switch (dialog) {
                         case USE_OBJECT: {
@@ -94,6 +96,7 @@ public class _14014Turning_The_Ide extends QuestHandler {
                             return defaultCloseDialog(env, 2, 3);
                         }
                     }
+                    break;
                 } case 802045: { //Livanon.
                     switch (dialog) {
                         case START_DIALOG: {
@@ -103,7 +106,13 @@ public class _14014Turning_The_Ide extends QuestHandler {
                         } case CHECK_COLLECTED_ITEMS: {
 							return checkQuestItems(env, 3, 5, false, 0, 0); // 5
 						}
+						case FINISH_DIALOG: {
+							return sendQuestSelectionDialog(env);
+						}
+						default:
+							break;
 					}
+					break;
 				}
 			}
 		}

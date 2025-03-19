@@ -81,6 +81,7 @@ public class _24013Poison_In_The_Waters extends QuestHandler {
                             return defaultCloseDialog(env, 0, 1);
                         }
                     }
+                    break;
                 } case 203621: { //Shania.
                     switch (env.getDialog()) {
                         case START_DIALOG: {
@@ -92,6 +93,7 @@ public class _24013Poison_In_The_Waters extends QuestHandler {
                             return defaultCloseDialog(env, 1, 2);
                         }
                     }
+                    break;
                 }
             }
         } else if (qs.getStatus() == QuestStatus.REWARD) {

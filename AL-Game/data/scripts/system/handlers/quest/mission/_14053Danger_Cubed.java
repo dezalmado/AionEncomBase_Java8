@@ -14,20 +14,23 @@ package quest.mission;
 
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
 import com.aionemu.gameserver.services.QuestService;
 import com.aionemu.gameserver.services.teleport.TeleportService2;
+import com.aionemu.gameserver.utils.PacketSendUtility;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _14053Danger_Cubed extends QuestHandler {
-
+public class _14053Danger_Cubed extends QuestHandler
+{
     private final static int questId = 14053;
+	
     public _14053Danger_Cubed() {
         super(questId);
     }
@@ -82,7 +85,8 @@ public class _14053Danger_Cubed extends QuestHandler {
                         TeleportService2.teleportTo(player, 210020000, 1601f, 1528f, 318.6f, (byte) 118);
                         qs.setQuestVarById(0, var + 1);
                         updateQuestStatus(env);
-					    return closeDialogWindow(env);
+                        PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+                        return true;
                     }
                 case CHECK_COLLECTED_ITEMS:
                     if (QuestService.collectItemCheck(env, true)) {
@@ -99,7 +103,8 @@ public class _14053Danger_Cubed extends QuestHandler {
                     if (var == 2) {
                         qs.setQuestVarById(0, var + 1);
                         updateQuestStatus(env);
-					    return closeDialogWindow(env);
+                        PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+                        return true;
                     }
             }
         } else if (targetId == 204020) {
@@ -113,7 +118,8 @@ public class _14053Danger_Cubed extends QuestHandler {
                         TeleportService2.teleportTo(player, 210040000, 2006.7308f, 1392.1913f, 118.125f, (byte) 4);
                         qs.setQuestVarById(0, var + 1);
                         updateQuestStatus(env);
-					    return closeDialogWindow(env);
+                        PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+                        return true;
                     }
             }
         }

@@ -7,9 +7,10 @@ import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
 
-public class _14023Playing_Around_At_The_Temple extends QuestHandler {
-
+public class _14023Playing_Around_At_The_Temple extends QuestHandler
+{
     private final static int questId = 14023;
+	
     public _14023Playing_Around_At_The_Temple() {
         super(questId);
     }
@@ -55,6 +56,7 @@ public class _14023Playing_Around_At_The_Temple extends QuestHandler {
                             return defaultCloseDialog(env, 0, 1);
                         }
                     }
+                    break;
                 } case 203967: {
                     switch (dialog) {
                         case START_DIALOG: {
@@ -69,8 +71,11 @@ public class _14023Playing_Around_At_The_Temple extends QuestHandler {
                             }
 						} case STEP_TO_2: {
                             return defaultCloseDialog(env, 1, 2);
+                        } case FINISH_DIALOG: {
+                            return closeDialogWindow(env);
                         }
                     }
+                    break;
                 }
             }
         } else if (qs.getStatus() == QuestStatus.REWARD) {

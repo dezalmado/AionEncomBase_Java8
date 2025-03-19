@@ -24,9 +24,10 @@ import com.aionemu.gameserver.questEngine.model.QuestStatus;
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _14022The_Test_Of_The_Heart extends QuestHandler {
-
+public class _14022The_Test_Of_The_Heart extends QuestHandler
+{
     private final static int questId = 14022;
+	
     public _14022The_Test_Of_The_Heart() {
         super(questId);
     }
@@ -74,6 +75,7 @@ public class _14022The_Test_Of_The_Heart extends QuestHandler {
                             return defaultCloseDialog(env, 0, 1);
                         }
                     }
+                    break;
                 } case 203996: {
                     switch (dialog) {
                         case START_DIALOG: {
@@ -89,6 +91,7 @@ public class _14022The_Test_Of_The_Heart extends QuestHandler {
                             return sendQuestDialog(env, 5);
                         }
                     }
+                    break;
                 }
             }
         } else if (qs.getStatus() == QuestStatus.REWARD) {

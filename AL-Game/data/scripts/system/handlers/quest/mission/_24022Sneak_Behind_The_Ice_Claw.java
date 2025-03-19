@@ -85,6 +85,7 @@ public class _24022Sneak_Behind_The_Ice_Claw extends QuestHandler {
                             return defaultCloseDialog(env, 7, 7, true, false);
                         }
                     }
+                    break;
                 } case 204335: { //Aprily.
                     switch (dialog) {
                         case START_DIALOG: {
@@ -95,6 +96,7 @@ public class _24022Sneak_Behind_The_Ice_Claw extends QuestHandler {
                             return defaultCloseDialog(env, 1, 2);
                         }
                     }
+                    break;
                 } case 204332: { //Jorund.
                     switch (dialog) {
                         case START_DIALOG: {
@@ -107,6 +109,7 @@ public class _24022Sneak_Behind_The_Ice_Claw extends QuestHandler {
                             }
                         }
                     }
+                    break;
                 } case 700246: { //Dead Fire.
                     if (dialog == QuestDialog.USE_OBJECT) {
                         if (var == 3) {
@@ -129,6 +132,7 @@ public class _24022Sneak_Behind_The_Ice_Claw extends QuestHandler {
                             return defaultCloseDialog(env, 5, 6);
                         }
                     }
+                    break;
                 }
             }
         } else if (qs.getStatus() == QuestStatus.REWARD) {

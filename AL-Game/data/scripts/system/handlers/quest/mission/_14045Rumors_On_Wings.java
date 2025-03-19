@@ -29,10 +29,11 @@ import com.aionemu.gameserver.utils.PacketSendUtility;
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _14045Rumors_On_Wings extends QuestHandler {
-
+public class _14045Rumors_On_Wings extends QuestHandler
+{
     private final static int questId = 14045;
 	private final static int[] npc_ids = {278506, 279006, 279023};
+	
     public _14045Rumors_On_Wings() {
         super(questId);
     }
@@ -83,6 +84,7 @@ public class _14045Rumors_On_Wings extends QuestHandler {
                             return defaultCloseDialog(env, 0, 1);
                         }
                     }
+                break;
 				case 279023: //Agemonerk.
                     switch (dialog) {
                         case START_DIALOG: {
@@ -93,13 +95,15 @@ public class _14045Rumors_On_Wings extends QuestHandler {
                             giveQuestItem(env, 182215918, 1);
 							qs.setQuestVarById(0, var + 1);
 						    updateQuestStatus(env);
+						    PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 						    player.setState(CreatureState.FLIGHT_TELEPORT);
 						    player.unsetState(CreatureState.ACTIVE);
 						    player.setFlightTeleportId(57001);
 						    PacketSendUtility.sendPacket(player, new SM_EMOTION(player, EmotionType.START_FLYTELEPORT, 57001, 0));
-						    return closeDialogWindow(env);
+						    return true;
                         }
                     }
+                break;
 				case 279006: //Garkbinerk.
                     switch (dialog) {
                         case START_DIALOG: {
@@ -116,14 +120,16 @@ public class _14045Rumors_On_Wings extends QuestHandler {
                                 qs.setQuestVarById(0, 12);
                                 qs.setStatus(QuestStatus.REWARD);
                                 updateQuestStatus(env);
+						        PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 						        player.setState(CreatureState.FLIGHT_TELEPORT);
 						        player.unsetState(CreatureState.ACTIVE);
 						        player.setFlightTeleportId(58001);
 						        PacketSendUtility.sendPacket(player, new SM_EMOTION(player, EmotionType.START_FLYTELEPORT, 58001, 0));
-						        return closeDialogWindow(env);
+						        return true;
                             }
                         }
                     }
+                break;
             }
         } else if (qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 279023) { //Agemonerk.
