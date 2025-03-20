@@ -47,10 +47,11 @@ public class _21468TheStruggleWithin extends QuestHandler {
 	public boolean onDialogEvent(QuestEnv env) {
 		Player player = env.getPlayer();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
+		QuestDialog dialog = env.getDialog();
 		int targetId = env.getTargetId();
 		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 799526) { 
-				if (env.getDialog() == QuestDialog.START_DIALOG) {
+				if (dialog == QuestDialog.START_DIALOG) {
 					return sendQuestDialog(env, 4762);
 				}
 				else {
@@ -58,9 +59,9 @@ public class _21468TheStruggleWithin extends QuestHandler {
 				}
 			}
 		}
-		else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+		else if (qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 799503) {
-				switch (env.getDialog()) {
+				switch (dialog) {
 					case USE_OBJECT: {
 						return sendQuestDialog(env, 10002);
 					}

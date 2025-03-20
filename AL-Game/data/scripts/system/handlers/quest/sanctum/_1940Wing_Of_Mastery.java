@@ -23,6 +23,7 @@ import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
+import com.aionemu.gameserver.world.zone.ZoneName;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
@@ -44,8 +45,20 @@ public class _1940Wing_Of_Mastery extends QuestHandler {
 	public void register() {
 		qe.registerOnLevelUp(questId);
 		qe.registerQuestNpc(203879).addOnTalkEvent(questId); //Idomeneus.
+		qe.registerOnEnterZone(ZoneName.get("EXALTED_PATH_110010000"), questId);
 	}
-		
+	
+	@Override
+    public boolean onEnterZoneEvent(QuestEnv env, ZoneName zoneName) {
+        final Player player = env.getPlayer();
+        final QuestState qs = player.getQuestStateList().getQuestState(questId);
+        if (qs != null && qs.getStatus() == QuestStatus.START) {
+            int var = qs.getQuestVarById(0);
+			int instanceId = player.getInstanceId();
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean onDialogEvent(QuestEnv env) {
 		final Player player = env.getPlayer();

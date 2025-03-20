@@ -28,13 +28,16 @@ import com.aionemu.gameserver.world.zone.ZoneName;
 public class _23965A_Fragment_That_Appeared_At_The_Temple extends QuestHandler {
 
     private final static int questId = 23965;
+	private final static int[] npcs = {835220};
     public _23965A_Fragment_That_Appeared_At_The_Temple() {
         super(questId);
     }
 	
 	@Override
 	public void register() {
-        qe.registerQuestNpc(835220).addOnTalkEvent(questId);
+		for (int npc: npcs) {
+            qe.registerQuestNpc(npc).addOnTalkEvent(questId);
+        }
 		qe.registerOnEnterWorld(questId);
 		qe.registerOnEnterZone(ZoneName.get("IDETERNITY_WAR_Q13965_302350000"), questId);
 	}

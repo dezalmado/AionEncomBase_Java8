@@ -68,6 +68,7 @@ public class _14042A_Rescue_Operation extends QuestHandler {
                             return defaultCloseDialog(env, 0, 1);
 						}
                     }
+                break;
 				case 278517:
                     switch (env.getDialog()) {
                         case START_DIALOG: {
@@ -79,6 +80,7 @@ public class _14042A_Rescue_Operation extends QuestHandler {
 							return defaultCloseDialog(env, 1, 2);
 						}
                     }
+                break;
 				case 278590:
                     switch (env.getDialog()) {
                         case START_DIALOG: {
@@ -90,6 +92,7 @@ public class _14042A_Rescue_Operation extends QuestHandler {
 							return defaultCloseDialog(env, 2, 3);
 						}
                     }
+                break;
 				case 253623:
                     switch (env.getDialog()) {
                         case START_DIALOG: {
@@ -103,6 +106,7 @@ public class _14042A_Rescue_Operation extends QuestHandler {
                             return defaultStartFollowEvent(env, (Npc) env.getVisibleObject(), 253635, 3, 4); //Prison Camp Elyos Search Squad.
                         }
                     }
+                break;
             }
         } else if (qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 278517) {
