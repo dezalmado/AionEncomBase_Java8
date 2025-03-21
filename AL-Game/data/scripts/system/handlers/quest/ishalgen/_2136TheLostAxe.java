@@ -35,7 +35,7 @@ import com.aionemu.gameserver.utils.ThreadPoolManager;
 public class _2136TheLostAxe extends QuestHandler {
 
 	private final static int questId = 2136;
-	private final static int[] npc_ids = { 700146, 790009 };
+	private final static int[] npc_ids = {700146, 790009};
 	public _2136TheLostAxe() {
 		super(questId);
 	}
@@ -64,42 +64,9 @@ public class _2136TheLostAxe extends QuestHandler {
 		}
 		if (qs == null)
 			return false;
+		if (qs.getStatus() == QuestStatus.START) {
 		int var = qs.getQuestVarById(0);
-		if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
-			if (targetId == 790009) {
-				final Npc npc = (Npc) env.getVisibleObject();
-				ThreadPoolManager.getInstance().schedule(new Runnable() {
-					@Override
-					public void run() {
-						npc.getController().onDelete();
-					}
-				}, 10000);
-				return sendQuestEndDialog(env);
-			}
-		}
-		else if (qs.getStatus() == QuestStatus.START) {
 		switch (targetId) {
-		case 790009: {
-			switch (env.getDialog()) {
-				case START_DIALOG:
-					if (var == 1)
-						return sendQuestDialog(env, 1011);
-				case STEP_TO_1:
-					if (var == 1) {
-						qs.setStatus(QuestStatus.REWARD);
-						updateQuestStatus(env);
-						removeQuestItem(env, 182203130, 1);
-						return sendQuestDialog(env, 6);
-				}
-				case STEP_TO_2:
-					if (var == 1) {
-						qs.setStatus(QuestStatus.REWARD);
-						updateQuestStatus(env);
-						removeQuestItem(env, 182203130, 1);
-						return sendQuestDialog(env, 5);
-				}
-			}
-		}
 		case 700146: {
 			switch (env.getDialog()) {
 				case USE_OBJECT:
@@ -109,8 +76,40 @@ public class _2136TheLostAxe extends QuestHandler {
 						updateQuestStatus(env);
 						QuestService.addNewSpawn(220010000, player.getInstanceId(), 790009, 1080.1555f, 2374.5107f, 247.75f, (byte) 73);
 						return true;
-					}	
-                }
+			}	
+        }
+		case 790009: {
+			switch (env.getDialog()) {
+				case START_DIALOG: {
+					if (var == 1)
+						return sendQuestDialog(env, 1011);
+                } 
+				case STEP_TO_1:
+					if (var == 1)
+						qs.setStatus(QuestStatus.REWARD);
+						updateQuestStatus(env);
+						removeQuestItem(env, 182203130, 1);
+						return sendQuestDialog(env, 6);
+				case STEP_TO_2:
+					if (var == 1)
+						qs.setStatus(QuestStatus.REWARD);
+						updateQuestStatus(env);
+						removeQuestItem(env, 182203130, 1);
+						return sendQuestDialog(env, 5);
+			        }
+		        }
+			}
+		}
+		else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
+			if (targetId == 790009) {
+				final Npc npc = (Npc) env.getVisibleObject();
+				ThreadPoolManager.getInstance().schedule(new Runnable() {
+					@Override
+					public void run() {
+						npc.getController().onDelete();
+					}
+				}, 10000);
+				return sendQuestEndDialog(env);
 			}
 		}
 		return false;

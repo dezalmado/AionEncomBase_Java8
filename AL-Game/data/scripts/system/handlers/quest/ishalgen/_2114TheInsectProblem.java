@@ -98,16 +98,14 @@ public class _2114TheInsectProblem extends QuestHandler {
 	public boolean onKillEvent(QuestEnv env) {
 		Player player = env.getPlayer();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
-		if (qs == null)
-			return false;
-		int var = qs.getQuestVarById(0);
 		int targetId = 0;
 		if (env.getVisibleObject() instanceof Npc)
 			targetId = ((Npc) env.getVisibleObject()).getNpcId();
-		if (qs.getStatus() != QuestStatus.START)
+		if (qs == null || qs.getStatus() == QuestStatus.START) {
+		int var = qs.getQuestVarById(0);
 		switch (targetId) {
 			case 210734:
-				if (var >= 1 && var < 10) {
+				if (var >= 0 && var < 10) {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					updateQuestStatus(env);
 					return true;
@@ -119,7 +117,7 @@ public class _2114TheInsectProblem extends QuestHandler {
 				}
 			case 210380:
 			case 210381:
-				if (var >= 11 && var < 20) {
+				if (var >= 10 && var < 20) {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					updateQuestStatus(env);
 					return true;
@@ -129,6 +127,7 @@ public class _2114TheInsectProblem extends QuestHandler {
 					updateQuestStatus(env);
 					return true;
 				}
+            }
 		}
 		return false;
 	}
