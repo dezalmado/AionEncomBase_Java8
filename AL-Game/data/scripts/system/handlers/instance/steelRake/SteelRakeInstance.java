@@ -19,18 +19,12 @@ package instance.steelRake;
 import com.aionemu.commons.utils.Rnd;
 import com.aionemu.gameserver.instance.handlers.GeneralInstanceHandler;
 import com.aionemu.gameserver.instance.handlers.InstanceID;
-import com.aionemu.gameserver.model.EmotionType;
 import com.aionemu.gameserver.model.Race;
 import com.aionemu.gameserver.model.drop.DropItem;
-import com.aionemu.gameserver.model.gameobjects.Creature;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_DIE;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_EMOTION;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_QUESTION_WINDOW;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_SYSTEM_MESSAGE;
 import com.aionemu.gameserver.services.drop.DropRegistrationService;
-import com.aionemu.gameserver.services.player.PlayerReviveService;
 import com.aionemu.gameserver.services.teleport.TeleportService2;
 import com.aionemu.gameserver.utils.PacketSendUtility;
 import com.aionemu.gameserver.utils.ThreadPoolManager;
@@ -45,8 +39,8 @@ import java.util.Set;
 /****/
 
 @InstanceID(300100000)
-public class SteelRakeInstance extends GeneralInstanceHandler
-{
+public class SteelRakeInstance extends GeneralInstanceHandler {
+
 	private boolean isInstanceDestroyed;
 	
 	@Override
@@ -289,8 +283,8 @@ public class SteelRakeInstance extends GeneralInstanceHandler
 			    despawnNpc(npc);
 			break;
 			case 215056: //Warden Tantaka.
-				spawn(215421, 471.095f, 576.663f, 887.46f, (byte) 30); //Treasure Box.
-				spawn(215421, 451.161f, 575.938f, 887.41f, (byte) 30); //Treasure Box.
+/* 				spawn(215421, 471.095f, 576.663f, 887.46f, (byte) 30); //Treasure Box.
+				spawn(215421, 451.161f, 575.938f, 887.41f, (byte) 30); //Treasure Box. */
 				//The door is open and you can now access The Brig.
 				sendMsgByRace(1400249, Race.PC_ALL, 2000);
 				spawn(730200, 461.898f, 487.228f, 877.713f, (byte) 0, 30); //The Brig Entrance.
@@ -317,7 +311,7 @@ public class SteelRakeInstance extends GeneralInstanceHandler
 				////sendMsg("[SUCCES]: You have finished <Steel Rake>");
 				spawn(700509, 403.25793f, 510.25354f, 1071.736f, (byte) 1); //Shining Box.
 				spawn(700555, 426.47424f, 509.34625f, 1075.3801f, (byte) 0); //Captain Treasure Box.
-				spawn(730198, 428.06598f, 486.64233f, 1075.4449f, (byte) 0, 87); //Escape Anchor.
+				spawn(730766, 428.06598f, 486.64233f, 1075.4449f, (byte) 0, 87); //Escape Anchor.
 			break;
 			case 215411: //Zerkin The One-Eyed.
 				//The door is open and you can now access the Large Gun Deck.

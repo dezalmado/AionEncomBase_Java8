@@ -55,6 +55,7 @@
 	<!-- Habrok -->
 	<portal_loc world_id="220090000" loc_id="2200900" x="252.773" y="177.981" z="503.511" h="29"/>
 	<!-- Inggison [Master Server] -->
+	<portal_loc world_id="210130000" loc_id="2100517" x="1080.1464" y="1519.1409" z="405.72308"/>
 	<portal_loc world_id="210130000" loc_id="2101300" x="1375.1648" y="366.27975" z="589.6201" h="22"/>
 	<portal_loc world_id="210130000" loc_id="2101301" x="543.21" y="715.02" z="484.0491" h="17"/> 
 	<portal_loc world_id="210130000" loc_id="2101302" x="536.35" y="705.89" z="484.04898" h="76"/>
@@ -190,6 +191,7 @@
 	<portal_loc world_id="220050000" loc_id="2200501" x="1535.1396" y="385.41147" z="231.125" h="8"/> <!-- Theobomos Lab Exit -->
 	<portal_loc world_id="220050000" loc_id="2200502" x="2100.697" y="179.41963" z="218.59442" h="57"/> <!-- Theobomos Lab To Adma Plain -->
 	<!-- Gelkmaros [Master Server] -->
+    <portal_loc world_id="220140000" loc_id="2200717" x="1797.6472" y="1884.7391" z="404.25" h="78"/>
 	<portal_loc world_id="220140000" loc_id="2201400" x="1888.2524" y="2847.2727" z="554.9964" h="98"/>
 	<portal_loc world_id="220140000" loc_id="2201401" x="2657.23" y="2195.18" z="495.9283" h="73"/>
 	<portal_loc world_id="220140000" loc_id="2201402" x="2663.65" y="2200.99" z="495.9283" h="15"/>
@@ -335,10 +337,10 @@
 	<portal_loc world_id="600040000" loc_id="6000402" x="753.8862" y="196.5616" z="1201.5183" h="83"/> <!-- Elyos Breakout In -->
 	<portal_loc world_id="600040000" loc_id="6000403" x="754.4194" y="1341.1023" z="1201.5183" h="91"/> <!-- Asmodians Breakout In -->
 	<!-- Tiamaranta's Eye [Master Server] 5.8 -->
-	<portal_loc world_id="600040000" loc_id="6000410" x="754.08765" y="30.9985" z="1196.8104" h="30"/> <!-- Tiamaranta's Eye Elyos -->
-	<portal_loc world_id="600040000" loc_id="6000411" x="754.55330" y="1506.3683" z="1196.8643" h="90"/> <!-- Tiamaranta's Eye Asmodians -->
-	<portal_loc world_id="600041000" loc_id="6000412" x="753.8862" y="196.5616" z="1201.5183" h="83"/> <!-- Elyos Breakout In -->
-	<portal_loc world_id="600041000" loc_id="6000413" x="754.4194" y="1341.1023" z="1201.5183" h="91"/> <!-- Asmodians Breakout In -->
+<!-- 	<portal_loc world_id="600040000" loc_id="6000410" x="754.08765" y="30.9985" z="1196.8104" h="30"/> --> <!-- Tiamaranta's Eye Elyos -->
+<!-- 	<portal_loc world_id="600040000" loc_id="6000411" x="754.55330" y="1506.3683" z="1196.8643" h="90"/> --> <!-- Tiamaranta's Eye Asmodians -->
+<!-- 	<portal_loc world_id="600041000" loc_id="6000412" x="753.8862" y="196.5616" z="1201.5183" h="83"/> --> <!-- Elyos Breakout In -->
+<!-- 	<portal_loc world_id="600041000" loc_id="6000413" x="754.4194" y="1341.1023" z="1201.5183" h="91"/> --> <!-- Asmodians Breakout In -->
     <!-- Katalam -->
     <portal_loc world_id="600050000" loc_id="6000500" x="2420.8816" y="2282.8577" z="163.25" h="116"/> <!-- Exit A -->
     <portal_loc world_id="600050000" loc_id="6000501" x="2503.7026" y="720.7516" z="195.5" h="107"/> <!-- Exit B -->
@@ -407,7 +409,7 @@
 	<!-- Right Wing Chamber -->
 	<portal_loc world_id="300090000" loc_id="3000900" x="265.984" y="387.77493" z="103.24291" h="0"/>
 	<!-- Steel Rake -->
-	<portal_loc world_id="300100000" loc_id="3001000" x="234.7316" y="505.87134" z="948.6736" h="0"/>
+	<portal_loc world_id="300100000" loc_id="3001000" x="283.50775" y="453.52014" z="902.6228" h="29"/>
 	<portal_loc world_id="300100000" loc_id="3001002" x="461.5" y="489.6" z="877.8" h="0"/>
 	<portal_loc world_id="300100000" loc_id="3001003" x="461.5" y="485" z="877.8" h="0"/>
 	<portal_loc world_id="300100000" loc_id="3001004" x="283.3702" y="453.40396" z="902.62274" h="0"/>
@@ -520,7 +522,7 @@
 	<!-- Seized Danuar Sanctuary 4.8 -->
 	<portal_loc world_id="301140000" loc_id="3011400" x="388.0756" y="1185.9813" z="55.30134" h="0"/>
 	<!-- Rukibuki Circus Troop Training Camp 4.3 -->
-	<portal_loc world_id="301160000" loc_id="3011600" x="464.59558" y="566.6469" z="201.64261" h="2"/>
+<!-- 	<portal_loc world_id="301160000" loc_id="3011600" x="464.59558" y="566.6469" z="201.64261" h="2"/> -->
 	<!-- Rukibuki Circus Troupe Camp 4.3 -->
 	<portal_loc world_id="301200000" loc_id="3012000" x="464.59558" y="566.6469" z="201.64261" h="2"/>
 	<!-- Iron Wall Warfront 4.5 -->
