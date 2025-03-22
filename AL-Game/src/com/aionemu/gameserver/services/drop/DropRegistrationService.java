@@ -91,7 +91,7 @@ public class DropRegistrationService {
 		}
 	}
 
-    public final void init() {
+   public final void init() {
         NpcDropData npcDrop = DataManager.NPC_DROP_DATA;
         for (NpcDrop drop : npcDrop.getNpcDrop()) {
             NpcTemplate npcTemplate = DataManager.NPC_DATA.getNpcTemplate(drop.getNpcId());
@@ -101,22 +101,18 @@ public class DropRegistrationService {
             if (npcTemplate.getNpcDrop() != null) {
                 NpcDrop currentDrop = npcTemplate.getNpcDrop();
                 for (DropGroup dg : currentDrop.getDropGroup()) {
-                    // 创建一个临时列表来存储需要删除的元素
-                    // Create a temporary list to store elements that need to be removed
-                    List<Drop> dropsToRemove = new ArrayList<Drop>();
+                    List<Drop> list = new ArrayList<Drop>();
                     for (Drop d : dg.getDrop()) {
                         for (DropGroup dg2 : drop.getDropGroup()) {
                             for (Drop d2 : dg2.getDrop()) {
                                 if (d.getItemId() == d2.getItemId()) {
-                                    dropsToRemove.add(d);
+                                    list.add(d);
                                     break;
                                 }
                             }
                         }
                     }
-                    // 在迭代完成后删除元素
-                    // Remove elements after iteration is complete
-                    dg.getDrop().removeAll(dropsToRemove);
+                    dg.getDrop().remove(list);
                 }
                 List<DropGroup> list = new ArrayList<DropGroup>();
                 for (DropGroup dg : drop.getDropGroup()) {
@@ -144,7 +140,7 @@ public class DropRegistrationService {
 	 * After NPC dies, it can register arbitrary drop
 	 */
 	public void registerDrop(Npc npc, Player player, int heighestLevel, Collection<Player> groupMembers) {
-
+		boolean stepCheck = false;
 		if (player == null) {
 			return;
 		}
@@ -230,7 +226,13 @@ public class DropRegistrationService {
 				: 0;
 		boostDropRate += genesis.getGameStats().getStat(StatEnum.BOOST_DROP_RATE, 100).getCurrent() / 100f - 1;
 		boostDropRate += genesis.getGameStats().getStat(StatEnum.DR_BOOST, 100).getCurrent() / 100f - 1;
-		float dropRate = genesis.getRates().getDropRate() * boostDropRate * dropChance / 100f;
+		// ?????????? / Comments for drop rate calculation
+		// ??NPC???? / Add NPC rating modification
+		float ratingModifier = getRatingModifier(npc);
+		// ??????? = ????? * ???? * ????? * ???? / 100
+		// Final drop rate = base drop rate * boost rate * level difference modifier * rating modifier / 100
+		float dropRate = genesis.getRates().getDropRate() * boostDropRate * dropChance * ratingModifier / 100f;
+		
 		if (npcDrop != null) {
 			index = npcDrop.dropCalculator(droppedItems, index, dropRate, genesis.getRace(), groupMembers);
 		}
@@ -269,39 +271,10 @@ public class DropRegistrationService {
 		}
 		if (DropConfig.ENABLE_GLOBAL_DROPS) {
 			boolean isNpcChest = npc.getAi2().getName().equals("chest");
-			boolean stepCheck = false;
-			// 添加一个计数器来跟踪全局掉落添加的物品数量 | Add a counter to track the number of global drop items added
-			int globalDropCount = 0;
-			
-			// 根据地图类型调整最大掉落数量限制 | Adjust maximum drop quantity limit based on map type
-			int maxDropsAllowed = DropConfig.MAX_GLOBAL_DROPS_PER_NPC;
-			float extraDropRateModifier = 1.0f; // 额外掉落率修正
-			
-			if (!npc.getPosition().isInstanceMap()) {
-				// 为大世界增加掉落数量限制，使其与副本区域保持平衡 | Increase drop limit for open world to balance with instance areas
-				maxDropsAllowed += 5; // 增加3个物品的掉落上限 | Increase drop limit by 5 items
-				
-				// 为大世界精英怪物增加额外掉落率和掉落数量 | Add extra drop rate and drop quantity for elite monsters in open world
-				if (npc.getRating() != null) {
-					if (npc.getRating().equals(NpcRating.ELITE)) {
-						extraDropRateModifier = 31.0f; // 精英怪掉落率提高3000%
-					} else if (npc.getRating().equals(NpcRating.HERO)) {
-						extraDropRateModifier = 31.0f; // 英雄怪掉落率提高3000%
-					} else if (npc.getRating().equals(NpcRating.LEGENDARY)) {
-						extraDropRateModifier = 31.0f; // 传说怪掉落率提高3000%
-					}
-				}
-			}
-			
-			if ((!isNpcChest && npc.getLevel() > 1 && npc.getAbyssNpcType() == AbyssNpcType.NONE) || isNpcChest) {
+			if ((!isNpcChest && npc.getLevel() > 1) || isNpcChest) {
 				GlobalDropData globalDrops = DataManager.GLOBAL_DROP_DATA;
 				List<GlobalRule> globalrules = globalDrops.getAllRules();
 				for (GlobalRule rule : globalrules) {
-					// 使用调整后的最大掉落数量限制 | Use adjusted maximum drop quantity limit
-					if (globalDropCount >= maxDropsAllowed) {
-						break;
-					}
-					
 					if (rule.getGlobalRuleItems() == null) {
 						continue;
 					}
@@ -315,10 +288,6 @@ public class DropRegistrationService {
 							- 1;
 					boostDropRate += genesis.getGameStats().getStat(StatEnum.DR_BOOST, 100).getCurrent() / 100f - 1;
 					float gDropRate = genesis.getRates().getGlobalDropRate() * boostDropRate * dropChance / 100f;
-					
-					// 应用额外掉落率修正 | Apply extra drop rate modifier
-					gDropRate *= extraDropRateModifier;
-					
 					float percent = rule.getChance() * gDropRate;
 					if (Rnd.get() * 100 > percent) {
 						continue;
@@ -423,18 +392,15 @@ public class DropRegistrationService {
 							: alloweditems.get(0);
 					long count = 1;
 					if (rndItemId == 182400001) {
-						// 金币掉落：直接使用规则中的最小/最大值 | Gold Drop: Use min/max from rules directly
-						count = rule.getMaxCount() > 1 
+						count = rule.getMaxCount() > 1
 								? Rnd.get((int) rule.getMinCount(), (int) rule.getMaxCount())
 								: rule.getMinCount();
+
 					} else {
-						// 其他物品：同样的随机逻辑 | Other Items: Same random logic
 						count = rule.getMaxCount() > 1 ? Rnd.get((int) rule.getMinCount(), (int) rule.getMaxCount())
 								: rule.getMinCount();
 					}
-					// 在添加掉落物品后增加计数器 | Increment counter after adding drop item
 					droppedItems.add(regDropItem(index++, winnerObj, npcObjId, rndItemId, count));
-					globalDropCount++;
 				}
 			}
 		}
@@ -499,13 +465,24 @@ public class DropRegistrationService {
 	}
 
 	private float getRatingModifier(Npc npc) {
-		float ratingModifier = 1f;
-		if (npc.getRating() != null) {
-			if (npc.getRating().equals(NpcRating.NORMAL)) {
-				ratingModifier = 1f;
-			} else if (npc.getRating().equals(NpcRating.ELITE)) {
-				ratingModifier = 1.5f;
-			}
+		float ratingModifier = 1f; // ?????? / Default modifier
+		
+		switch (npc.getRating()) { // ??NPC???????????? / Set modifier based on NPC rating
+			case NORMAL:
+				ratingModifier = 1f;   // ???????? / Normal monster modifier
+				break;
+			case ELITE:
+				ratingModifier = 3f;   // ???????? / Elite monster modifier
+				break;
+			case HERO:
+				ratingModifier = 5f;   // ???????? / Hero monster modifier
+				break;
+			case LEGENDARY:
+				ratingModifier = 7f;   // ???????? / Legendary monster modifier
+				break;
+			default:
+				ratingModifier = 1f;   // ????????? / Use default value for unknown rating
+				break;
 		}
 		return ratingModifier;
 	}
